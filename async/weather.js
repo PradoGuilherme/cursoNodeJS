@@ -1,8 +1,10 @@
 const request = require('request')
 
 module.exports = function (location, callback) {
-  var url = `http://api.openweathermap.org/data/2.5/weather?q=${location}&APPID=e974993f57adef7495df5e89727c5797&units=metric&lang=pt`
-  console.log('URL => ', url)
+  if (!location) {
+    callback('No location')
+  }
+  const url = `http://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(location)}&APPID=e974993f57adef7495df5e89727c5797&units=metric&lang=pt`
   request({
     url: url,
     json: true
@@ -10,7 +12,7 @@ module.exports = function (location, callback) {
     if (error) {
       callback('Usable to fetch weather.')
     } else {
-      callback('Está ', body.main.temp, '°C em', body.name)
+      callback('Esta ' + body.main.temp + '°C em ' + body.name)
     }
   })
 }

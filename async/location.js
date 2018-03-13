@@ -9,7 +9,7 @@ module.exports = function (callback) {
     if (error) {
       callback('Usable to fetch weather.')
     } else {
-      callback(body)
+      callback(body.city)
     }
   })
 }
