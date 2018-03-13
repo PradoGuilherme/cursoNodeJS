@@ -1,5 +1,8 @@
-const express = require('express')
+var express = require('express')
+const helmet = require('helmet')
 var app = express()
+
+app.use(helmet())
 const PORT = process.env.PORT || 3000
 
 var todo = [{
@@ -13,6 +16,7 @@ var todo = [{
 }]
 
 app.get('/todos', function (req, res) {
+  console.log('REQUEST => ', req.connection.remoteAddress, ' Date => ', new Date().toString())
   res.send(JSON.stringify(todo))
 })
 
