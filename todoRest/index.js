@@ -29,6 +29,21 @@ app.post('/todos', function (req, res) {
   res.send(body)
 })
 
+app.get('/todos/:id', function (req, res) {
+  var todoId = parseInt(req.params.id)
+  var todoMached
+  todos.forEach(function (unique) {
+    if (unique.id === todoId) {
+      todoMached = unique
+    }
+  })
+  if (todoMached) {
+    res.json(todoMached)
+  } else {
+    res.status(404).send()
+  }
+})
+
 app.listen(PORT, function () {
   console.log('Server start on', PORT)
 })
