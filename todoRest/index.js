@@ -30,17 +30,13 @@ app.post('/todos', function (req, res) {
 })
 
 app.get('/todos/:id', function (req, res) {
-  var todoId = parseInt(req.params.id)
+  const todoId = parseInt(req.params.id)
   var todoMached
-  todos.forEach(function (unique) {
-    if (unique.id === todoId) {
-      todoMached = unique
-    }
-  })
+  todoMached = _.findWhere(todos, {id: todoId})
   if (todoMached) {
     res.json(todoMached)
   } else {
-    res.status(404).send()
+    res.status(404).send('Not find todo')
   }
 })
 
