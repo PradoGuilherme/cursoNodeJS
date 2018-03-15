@@ -36,7 +36,7 @@ app.get('/todos/:id', function (req, res) {
   if (todoMached) {
     res.json(todoMached)
   } else {
-    res.status(404).send('Not find todo')
+    res.status(404).send('Not find to do')
   }
 })
 
