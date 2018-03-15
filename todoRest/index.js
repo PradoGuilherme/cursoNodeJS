@@ -31,7 +31,7 @@ app.post('/todos', function (req, res) {
 
 app.get('/todos/:id', function (req, res) {
   const todoId = parseInt(req.params.id)
-  var todoMached = _.findWhere(todos, {id: todoId})
+  var todoMached = _.findWhere(todos, { id: todoId })
   if (todoMached) {
     res.json(todoMached)
   } else {
@@ -41,12 +41,10 @@ app.get('/todos/:id', function (req, res) {
 
 app.delete('/todos/:id', function (req, res) {
   const todoId = parseInt(req.params.id)
-  var todoMached = _.findWhere(todos, {id: todoId})
-  todoMached = _.without(todos, todoMached)
-  todos = todoMached
-  console.log(todoMached)
+  var todoMached = _.findWhere(todos, { id: todoId })
+  todos = _.without(todos, todoMached)
   if (todoMached) {
-    res.json(todoMached)
+    res.json(todos)
   } else {
     res.status(404).send('Not find to do')
   }
