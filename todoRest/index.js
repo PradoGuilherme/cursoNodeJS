@@ -12,8 +12,14 @@ const PORT = process.env.PORT || 3000
 var todos = []
 
 app.get('/todos', function (req, res) {
-  console.log('REQUEST => ', req.connection.remoteAddress, ' Date => ', new Date().toString())
-  res.json(todos)
+  var queryParams = req.query
+  var filteredTodos = todos
+  if (queryParams.hasOwnProperty('completed') && queryParams.completed === 'true') {
+    filteredTodos = _.where(filteredTodos, { completed: true })
+  } else if (queryParams.hasOwnProperty('completed') && queryParams.completed === 'false') {
+    filteredTodos = _.where(filteredTodos, { completed: false })
+  }
+  res.json(filteredTodos)
 })
 
 app.post('/todos', function (req, res) {
