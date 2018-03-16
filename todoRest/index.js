@@ -18,7 +18,7 @@ app.get('/todos', function (req, res) {
 
 app.post('/todos', function (req, res) {
   var body = _.pick(req.body, 'description', 'completed')
-  if (!_.isBoolean(req.body.completed) || !_.isString(req.body.description)) {
+  if (!_.isBoolean(req.body.completed) || !_.isString(req.body.description) || body.description.trim().length === 0) {
     return res.sendStatus(400)
   }
 
@@ -47,6 +47,35 @@ app.delete('/todos/:id', function (req, res) {
     res.json(todos)
   } else {
     res.status(404).send('Not find to do')
+  }
+})
+
+app.put('/todos/:id', function (req, res) {
+  const todoId = parseInt(req.params.id)
+  var todoMached = _.findWhere(todos, { id: todoId })
+  var body = _.pick(req.body, 'description', 'completed')
+  var validAttributes = {}
+
+  if (!todoMached) {
+    return res.status(404).send()
+  }
+
+  if (body.hasOwnProperty('completed') && _.isBoolean(req.body.completed)) {
+    validAttributes.completed = body.completed
+  } else if (body.hasOwnProperty('completed')) {
+    return res.status(400).send("Completed must be a boolean")
+  }
+
+  if (body.hasOwnProperty('description') && body.description.trim().length > 0 && _.isString(body.description)) {
+    validAttributes.description = body.description
+  } else if (body.hasOwnProperty('description')) {
+    return res.status(400).send("Description error")
+  }
+
+  if (_.extend(todoMached, validAttributes)) {
+    res.json(todos)
+  } else {
+    res.status(500).send()
   }
 })
 
